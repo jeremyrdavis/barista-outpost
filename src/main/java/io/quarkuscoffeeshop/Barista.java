@@ -1,10 +1,13 @@
 package io.quarkuscoffeeshop;
 
+import org.eclipse.microprofile.reactive.messaging.Channel;
+import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.time.Instant;
@@ -14,6 +17,11 @@ public class Barista {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Barista.class);
     private String madeBy;
+
+    @Inject
+    @Channel("orders-out")
+    Emitter<OrderUp> emitter;
+
 
     @PostConstruct
     void setHostName() {
@@ -29,6 +37,7 @@ public class Barista {
         LOGGER.debug("orderIn: {}", orderIn);
         OrderUp orderUp = make(orderIn);
         LOGGER.debug("returning: {}", orderUp);
+        emitter.send(orderUp);
     }
 
     public OrderUp make(final OrderIn orderIn) {
