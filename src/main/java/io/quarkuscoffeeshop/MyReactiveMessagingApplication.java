@@ -2,14 +2,22 @@ package io.quarkuscoffeeshop;
 
 import io.quarkus.runtime.StartupEvent;
 import org.eclipse.microprofile.reactive.messaging.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.stream.Stream;
 
 @ApplicationScoped
 public class MyReactiveMessagingApplication {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MyReactiveMessagingApplication.class);
+
+    @Inject
+    Barista barista;
 
     @Inject
     @Channel("words-out")
@@ -28,9 +36,11 @@ public class MyReactiveMessagingApplication {
      * Messages come from the broker.
      **/
     @Incoming("words-in")
-    @Outgoing("uppercase")
-    public Message<String> toUpperCase(Message<String> message) {
-        return message.withPayload(message.getPayload().toUpperCase());
+    @Transactional
+    public void toUpperCase(final OrderIn orderIn) {
+        LOGGER.debug("orderIn: {}", orderIn);
+        barista.onOrderIn(orderIn);
+//        return message.withPayload(message.getPayload().toUpperCase());
     }
 
     /**
