@@ -38,7 +38,7 @@ public class MyReactiveMessagingApplication {
     @Incoming("words-in")
     @Transactional
     public void toUpperCase(final OrderIn orderIn) {
-        LOGGER.debug("orderIn: {}", orderIn);
+        LOGGER.debug("orderIn: {}", orderIn.toString());
         barista.onOrderIn(orderIn);
 //        return message.withPayload(message.getPayload().toUpperCase());
     }

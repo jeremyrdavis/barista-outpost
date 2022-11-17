@@ -42,15 +42,15 @@ public class Barista {
 
     public OrderUp make(final OrderIn orderIn) {
 
-        LOGGER.debug("making: {}", orderIn.item());
+        LOGGER.debug("making: {}", orderIn.item);
 
-            sleepyTimeTime(orderIn.item());
+            sleepyTimeTime(orderIn.item);
 
             return new OrderUp(
-                    orderIn.orderId(),
-                    orderIn.itemId(),
-                    orderIn.item(),
-                    orderIn.name(),
+                    orderIn.orderId,
+                    orderIn.itemId,
+                    orderIn.item,
+                    orderIn.name,
                     madeBy);
     }
 
