@@ -1,16 +1,19 @@
 package io.quarkuscoffeeshop;
 
+import jakarta.annotation.PostConstruct;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
+import org.eclipse.microprofile.reactive.messaging.Incoming;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.time.Instant;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class Barista {
@@ -33,6 +36,7 @@ public class Barista {
         }
     }
 
+    @Incoming("barista-in")
     public void onOrderIn(final OrderIn orderIn) {
         LOGGER.debug("orderIn: {}", orderIn);
         OrderUp orderUp = make(orderIn);
@@ -67,22 +71,22 @@ public class Barista {
         int delay;
         switch (item) {
             case COFFEE_BLACK:
-                delay = 5000;
+                delay = 2000;
                 break;
             case COFFEE_WITH_ROOM:
-                delay = 5000;
+                delay = 2000;
                 break;
             case ESPRESSO:
-                delay = 7000;
+                delay = 2200;
                 break;
             case ESPRESSO_DOUBLE:
-                delay = 7000;
+                delay = 2200;
                 break;
             case CAPPUCCINO:
-                delay = 10000;
+                delay = 2500;
                 break;
             default:
-                delay = 3000;
+                delay = 1000;
                 break;
         }
         ;

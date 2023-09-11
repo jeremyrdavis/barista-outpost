@@ -17,7 +17,7 @@ public class OrderIn{
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public OrderIn(
             @JsonProperty("orderId") String orderId,
-            @JsonProperty("itemId")String itemId,
+            @JsonProperty("lineItemId")String itemId,
             @JsonProperty("name")String name,
             @JsonProperty("item")Item item,
             @JsonProperty("timeIn")Instant timeIn) {
@@ -32,7 +32,7 @@ public class OrderIn{
     public String toString() {
         return "OrderIn{" +
                 "orderId='" + orderId + '\'' +
-                ", itemId='" + itemId + '\'' +
+                ", lineItemId='" + itemId + '\'' +
                 ", name='" + name + '\'' +
                 ", item=" + item +
                 ", timeIn=" + timeIn +
